@@ -19,6 +19,23 @@ namespace
     }
 }
 
+static void triangulate(vector< Tup3u >& list, int u, int v) {
+    for( int i = 0; i < u; i++ ) {
+        for( int j = 0; j < v; j++ ) {
+            Tup3u face1;
+            face1[0] = i * v + j;
+            face1[1] = i * v + j + 1;
+            face1[2] = (i + 1) * v + j;
+            list.push_back(face1);
+            Tup3u face2;
+            face2[0] = i * v + j + 1;
+            face2[1] = (i + 1) * v + j + 1;
+            face2[2] = (i + 1) * v + j;
+            list.push_back(face2); 
+        }
+    }
+}
+
 Surface makeSurfRev(const Curve &profile, unsigned steps)
 {
     Surface surface;
@@ -29,34 +46,16 @@ Surface makeSurfRev(const Curve &profile, unsigned steps)
         exit(0);
     }
 
-    float step_size = 2*3.1415926536 / steps;
-    for( float i = 0; i <= 2*3.1415926536; i+=step_size ) {
+    float step_size = 6.28 / steps;
+    for( float i = 0; i <= 6.28; i+=step_size ) {
         Matrix3f rotation = Matrix3f::rotateY(i);
         for( int j = 0; j < profile.size(); j++ ) {
             surface.VV.push_back(rotation * profile[j].V);
             surface.VN.push_back(-(rotation * profile[j].N)); 
         }
     }
-    
-    for( int i = 0; i < profile.size(); i++ ) {
-        surface.VV.push_back(profile[i].V);
-        surface.VN.push_back(-profile[i].N); 
-    }
 
-    for( int i = 0; i < steps; i++ ) {
-        for( int j = 0; j < profile.size(); j++ ) {
-            Tup3u face1;
-            face1[0] = i * profile.size() + j;
-            face1[1] = i * profile.size() + j + 1;
-            face1[2] = (i + 1) * profile.size() + j;
-            surface.VF.push_back(face1);
-            Tup3u face2;
-            face2[0] = i * profile.size() + j + 1;
-            face2[1] = (i + 1) * profile.size() + j + 1;
-            face2[2] = (i + 1) * profile.size() + j;
-            surface.VF.push_back(face2); 
-        }
-    }
+    triangulate(surface.VF, steps, profile.size());
  
     return surface;
 }
@@ -71,10 +70,24 @@ Surface makeGenCyl(const Curve &profile, const Curve &sweep )
         exit(0);
     }
 
-    // TODO: Here you should build the surface.  See surf.h for details.
 
-    cerr << "\t>>> makeGenCyl called (but not implemented).\n\t>>> Returning empty surface." <<endl;
+    for( int i = 0; i < sweep.size(); i++ ) {
+        Vector4f sweep_N = Vector4f(sweep[i].N, 0);
+        Vector4f sweep_B = Vector4f(sweep[i].B, 0);
+        Vector4f sweep_T = Vector4f(sweep[i].T, 0);
+        Vector4f sweep_V = Vector4f(sweep[i].V, 1);
+        Matrix4f vertex_transform = Matrix4f(sweep_N, sweep_B, sweep_T, sweep_V);
+        Matrix3f normal_transform = vertex_transform.getSubmatrix3x3(0, 0).transposed().inverse();
+        for( int j = 0; j < profile.size(); j++ ) {
+            Vector4f point = Vector4f(profile[j].V, 1);
+            Vector3f normal = profile[j].N;
+            surface.VV.push_back((vertex_transform * point).xyz());
+            surface.VN.push_back(-(normal_transform * normal));
+        }
+}
 
+    triangulate(surface.VF, sweep.size(), profile.size());
+ 
     return surface;
 }
 
