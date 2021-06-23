@@ -1,0 +1,10 @@
+make --dry-run --always-make --keep-going --print-directory
+make: Entering directory `/Users/michaelwomick/Desktop/6.837/a1'
+g++ -O2 -Wall -ansi -DSOLN main.cpp -c -o main.o -I vecmath/include/
+g++ -O2 -Wall -ansi -DSOLN parse.cpp -c -o parse.o -I vecmath/include/
+g++ -O2 -Wall -ansi -DSOLN curve.cpp -c -o curve.o -I vecmath/include/
+g++ -O2 -Wall -ansi -DSOLN surf.cpp -c -o surf.o -I vecmath/include/
+g++ -O2 -Wall -ansi -DSOLN camera.cpp -c -o camera.o -I vecmath/include/
+g++ -framework Glut -framework OpenGL -O2 -Wall -ansi -DSOLN main.o parse.o curve.o surf.o camera.o -o a1 -I vecmath/include/ -L vecmath/lib/ -lvecmath
+make: Leaving directory `/Users/michaelwomick/Desktop/6.837/a1'
+ 

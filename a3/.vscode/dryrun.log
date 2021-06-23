@@ -1,0 +1,19 @@
+make --dry-run --always-make --keep-going --print-directory
+make: Entering directory `/Users/michaelwomick/Desktop/distrib'
+g++ -g -Wall -ansi ClothSystem.cpp -c -o ClothSystem.o -I vecmath/include -I /usr/include/GL
+g++ -g -Wall -ansi TimeStepper.cpp -c -o TimeStepper.o -I vecmath/include -I /usr/include/GL
+g++ -g -Wall -ansi camera.cpp -c -o camera.o -I vecmath/include -I /usr/include/GL
+g++ -g -Wall -ansi main.cpp -c -o main.o -I vecmath/include -I /usr/include/GL
+g++ -g -Wall -ansi particleSystem.cpp -c -o particleSystem.o -I vecmath/include -I /usr/include/GL
+g++ -g -Wall -ansi pendulumSystem.cpp -c -o pendulumSystem.o -I vecmath/include -I /usr/include/GL
+g++ -g -Wall -ansi simpleSystem.cpp -c -o simpleSystem.o -I vecmath/include -I /usr/include/GL
+g++ -g -Wall -ansi vecmath/src/Matrix2f.cpp -c -o vecmath/src/Matrix2f.o -I vecmath/include -I /usr/include/GL
+g++ -g -Wall -ansi vecmath/src/Matrix3f.cpp -c -o vecmath/src/Matrix3f.o -I vecmath/include -I /usr/include/GL
+g++ -g -Wall -ansi vecmath/src/Matrix4f.cpp -c -o vecmath/src/Matrix4f.o -I vecmath/include -I /usr/include/GL
+g++ -g -Wall -ansi vecmath/src/Quat4f.cpp -c -o vecmath/src/Quat4f.o -I vecmath/include -I /usr/include/GL
+g++ -g -Wall -ansi vecmath/src/Vector2f.cpp -c -o vecmath/src/Vector2f.o -I vecmath/include -I /usr/include/GL
+g++ -g -Wall -ansi vecmath/src/Vector3f.cpp -c -o vecmath/src/Vector3f.o -I vecmath/include -I /usr/include/GL
+g++ -g -Wall -ansi vecmath/src/Vector4f.cpp -c -o vecmath/src/Vector4f.o -I vecmath/include -I /usr/include/GL
+g++ -g -Wall -ansi ClothSystem.o TimeStepper.o camera.o main.o particleSystem.o pendulumSystem.o simpleSystem.o vecmath/src/Matrix2f.o vecmath/src/Matrix3f.o vecmath/src/Matrix4f.o vecmath/src/Quat4f.o vecmath/src/Vector2f.o vecmath/src/Vector3f.o vecmath/src/Vector4f.o -o a3 -L. -lRK4 -lglut -lGL -lGLU
+make: Leaving directory `/Users/michaelwomick/Desktop/distrib'
+ 
