@@ -35,7 +35,7 @@ Surface makeSurfRev(const Curve &profile, unsigned steps)
         for( int j = 0; j < profile.size(); j++ ) {
             surface.VV.push_back(rotation * profile[j].V);
             surface.VN.push_back(-(rotation * profile[j].N)); 
-        }       
+        }
     }
     
     for( int i = 0; i < profile.size(); i++ ) {
